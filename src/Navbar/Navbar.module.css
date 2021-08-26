@@ -1,0 +1,20 @@
+.navbar {
+  display:inline-block;
+  width: 15%;
+  padding-left:20px;
+  background-color: tomato;
+  color: black;
+}
+
+.navbar a {
+  font-family: 'Amatic SC', cursive;
+  font-size: 3em;
+  color: silver;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  font-family: 'Amatic SC', cursive;
+  color: silver;
+  text-decoration: underline;
+}

@@ -1,0 +1,13 @@
+.header{
+  display: flex;
+  height: 8%;
+  background-color: darkslateblue;
+  text-align: center;
+}
+
+.heading {
+  margin: auto;
+  color: silver;
+  font-family: 'Amatic SC', cursive;
+  font-size: 3em;
+}

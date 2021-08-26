@@ -1,0 +1,15 @@
+.profile {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  overflow:auto;
+  min-height: 96%;
+  height: 1px;
+  padding: 1%;
+  background-color: rgb(138, 69, 80);
+}
+
+.profilesPhoto {
+  height: 80%;
+  width: 25%;
+}
