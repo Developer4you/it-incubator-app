@@ -1,6 +1,12 @@
-type profilePageType = {
+export type profilePageType = {
   name: string
   profilePhotoSrc: string
+  posts: Array<postType>
+}
+export type postType = {
+  message: string
+  likesCount: number
+
 }
 type dialogType = {
   id: number
@@ -10,7 +16,7 @@ type messageType = {
   id: number
   message: string
 }
-type dialigsPageTypes = {
+export type dialigsPageTypes = {
   dialogs:Array<dialogType>
   messages:Array<messageType>
 }
@@ -30,22 +36,27 @@ type RootStateType = {
 
 export let state: RootStateType = {
     profilePage: {
-      name: 'Louis de Funès', profilePhotoSrc: "https://i.pinimg.com/originals/23/f3/94/23f394538e43fc1deeaa7a6dc11e09e8.jpg"
+      name: 'Louis de Funès', profilePhotoSrc: "https://i.pinimg.com/originals/23/f3/94/23f394538e43fc1deeaa7a6dc11e09e8.jpg",
+      posts: [
+        {message:'I love IT-KAMASUTRA!!!', likesCount:5},
+        {message:'It\'s an amazing world!', likesCount:10},
+        {message:'Thank you for being able to see this!!!', likesCount:7},
+        {message:'It\'s worth living for!', likesCount:5}
+      ]
     },
     dialogsPage: {
         dialogs: [
-            {id: 1, name: 'Dimych'},
-            {id: 2, name: 'Andrew'},
-            {id: 3, name: 'Sveta'},
-            {id: 4, name: 'Sasha'},
-            {id: 5, name: 'Viktor'},
-            {id: 6, name: 'Valera'}
+            {id: 1, name: 'Isaev'},
+            {id: 2, name: 'Leslie William Nielsen'},
+            {id: 3, name: 'Louis de Funès'},
+            {id: 4, name: 'Ilia Muromec'},
+            {id: 5, name: 'Siutkin'},
         ],
         messages: [
             {id: 1, message: 'Hi'},
             {id: 2, message: 'How is your it-kamasutra?'},
-            {id: 3, message: 'Yo'},
-            {id: 4, message: 'Yy'},
+            {id: 3, message: 'It is very good!'},
+            {id: 4, message: 'Yes!!!!!!!!!!!!!!!!!'},
             {id: 5, message: 'Ho-ho'}
         ]
     },

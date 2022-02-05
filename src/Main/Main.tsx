@@ -9,8 +9,8 @@ import state from '../redux/state';
 function Main() {
   return (
     <div className={style.main}>
-      <Route path='/profile'  render={()=><Profile userName={state.profilePage.name} profilePhotoSrc={state.profilePage.profilePhotoSrc}/>} />
-      <Route path='/dialogs'  component={Dialogs} />
+      <Route path='/profile'  render={()=><Profile name={state.profilePage.name} profilePhotoSrc={state.profilePage.profilePhotoSrc} posts={state.profilePage.posts}/>} />
+      <Route path='/dialogs'  render={()=><Dialogs dialogs={state.dialogsPage.dialogs} messages = {state.dialogsPage.messages} />} />
       <Route path='/users'  render={()=><Users users={state.usersPage.users}/>} />
     </div>
   );

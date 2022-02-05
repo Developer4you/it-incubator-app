@@ -1,21 +1,31 @@
 import React from "react";
+import { profilePageType } from "../redux/state";
+import Post from "./Post";
 import style from "./Profile.module.css";
 
-type profilePropsType = {
-  userName: string
-  profilePhotoSrc: string
-};
+function Profile(props: profilePageType) {
+  let postsElements = props.posts.map((p) => (
+    <Post message={p.message} likesCount={p.likesCount} />
+  ));
 
-function Profile(props: profilePropsType) {
   return (
     <div className={style.profile}>
-      <h1>Hello {props.userName}!</h1>
-      <img
-        className={style.profilesPhoto}
-        src={props.profilePhotoSrc}
-        alt="YourPhoto"
-      />
-
+      <div className={style.profilePhotoBlock}>
+        <h1>Hello {props.name}!</h1>
+        <img
+          className={style.profilesPhoto}
+          src={props.profilePhotoSrc}
+          alt="YourPhoto"
+        />
+      </div>
+      <div className={style.postsBlock}>
+        <h3>My posts</h3>
+        <div className={style.inputPostBox}>
+          <textarea></textarea>
+          <button>Add posts</button>
+        </div>
+        <div className={style.posts}>{postsElements}</div>
+      </div>
     </div>
   );
 }

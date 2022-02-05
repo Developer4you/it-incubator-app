@@ -1,3 +1,9 @@
 .dialogs {
-  display:flex;
+  display: flex;
+  font-size: 2em;
+  color: silver;
+}
+
+.dialogs > div {
+  margin: 15px;
 }
