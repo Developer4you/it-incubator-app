@@ -1,18 +1,14 @@
-export let iiiiiiii=1
-// import { applyMiddleware, combineReducers, createStore } from 'redux';
-// // import thunkMiddleware from 'redux-thunk';
-// // import charactersReducer from './characters-reducer';
-// // import comicsReducer from './comics-reducer';
-// // import favoritesReducer from './favorites-reducer';
+import {combineReducers, createStore} from "redux";
+import profileReduser from './profile-reduser';
+import usersReducer from "./users-reducer";
 
-// const reducers = combineReducers({
-//   charactersPage: charactersReducer,
-//   comicsPage: comicsReducer,
-//   favoritesPage: favoritesReducer,
-// });
+let rootReducer = combineReducers({
+    profilePage: profileReduser,
+    // dialogPage: dialogReduser,
+    usersPage: usersReducer,
 
-// const store = createStore(reducers, applyMiddleware(thunkMiddleware));
+})
 
-// window.store = store;
+export type AppStateType = ReturnType<typeof rootReducer>;
 
-// export default store;
+export const store = createStore(rootReducer);
