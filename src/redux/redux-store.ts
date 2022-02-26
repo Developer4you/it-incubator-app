@@ -1,5 +1,5 @@
 import {combineReducers, createStore} from "redux";
-import profileReduser from './profile-reduser';
+import profileReduser from './profile-reducer';
 import usersReducer from "./users-reducer";
 
 let rootReducer = combineReducers({

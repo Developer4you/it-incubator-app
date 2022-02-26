@@ -1,88 +1,36 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import Post from './Post';
-import style from './Profile.module.css';
-import {Dispatch} from 'redux';
-import {addPostAC, ProfileActionsType, ProfilePageType} from '../redux/profile-reduser';
-import {AppStateType} from '../redux/redux-store';
-import {TextInputWithButton} from '../TextInputWithButton/TextInputWithButton';
+import {ProfilePageType, ProfileType} from '../redux/profile-reducer';
+import s from './Profile.module.css'
 
-type MapStatePropsType = {
-    profilePage: ProfilePageType
-}
-
-type MapDispatchPropsType = {
-    addPost: (newPost: string) => void
-}
-
-export type ProfilePropsType = MapStatePropsType & MapDispatchPropsType
-
-function Profile(props: ProfilePropsType) {
-    const {
-        name, profilePhotoSrc, posts,
-    } = props.profilePage
-
-    let reversePosts = [...posts].reverse();
-
-    let postsElements = reversePosts.map((p) => (
-        <Post message={p.message} likesCount={p.likesCount}/>
-    ));
-
+const Profile = (props:ProfilePageType) => {
+    let {
+        userId, lookingForAJob, lookingForAJobDescription,
+        fullName, contacts, photos
+    } = {...props.profile}
     return (
-        <div className={style.profile}>
-            <div className={style.profilePhotoBlock}>
-                <h1>Hello {name}!</h1>
-                <img
-                    className={style.profilesPhoto}
-                    src={profilePhotoSrc}
-                    alt="YourPhoto"
-                />
-            </div>
-            <div className={style.postSection}>
-                <TextInputWithButton textButton="add Post" callback={props.addPost}/>
-                <h3>My posts</h3>
-                <div className={style.postsBlock}>
-                    <div className={style.posts}>{postsElements}</div>
+        <>
+            <div className={s.profile}>
+                <div className={s.profilePhotoBlock}>
+                    <h1>Hello {fullName}!</h1>
+                    <img
+                        className={s.profilesPhoto}
+                        src={photos.large}
+                        alt="Profile photo"
+                    />
+                    <div>Looking for a job: {lookingForAJob?'Yes':'No'}!</div>
+                    <div>Looking for a job description: {lookingForAJobDescription}!</div>
+                    <div>---Contacts---</div>
+                    <div>github: {contacts.github}</div>
+                    <div>vk: {contacts.vk}</div>
+                    <div>facebook: {contacts.facebook}</div>
+                    <div>instagram: {contacts.instagram}</div>
+                    <div>website: {contacts.website}</div>
+                    <div>youtube: {contacts.youtube}</div>
+                    <div>mainLink: {contacts.mainLink}</div>
                 </div>
             </div>
-        </div>
-    );
+        </>
+    )
 }
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-    return {
-        profilePage: state.profilePage,
-    }
-}
-
-const mapDispatchToProps = (dispatch: Dispatch<ProfileActionsType>): MapDispatchPropsType => {
-    return {
-        // updateNewPostText: (text) => {
-        //     let action = updateNewPostTextActionCreator(text);
-        //     dispatch(action);
-        // },
-        addPost: (newPost) => {
-            dispatch(addPostAC(newPost));
-        }
-    }
-}
-
-const ProfileContainer = connect(mapStateToProps, mapDispatchToProps)(Profile);
-
-export default ProfileContainer;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Profile;

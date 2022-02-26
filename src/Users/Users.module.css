@@ -1,3 +1,8 @@
+.usersPages {
+  position: relative;
+  height: 100%;
+}
+
 .users {
   display: flex;
   flex-wrap: wrap;
@@ -7,4 +12,17 @@
   height: 1px;
   padding: 1%;
   background-color: rgb(138, 69, 80);
+}
+
+.pagesList {
+  display:flex;
+  justify-content: center;
+}
+
+.selectedPage {
+  color: aqua;
+}
+
+.avatar {
+  width: 200px;
 }

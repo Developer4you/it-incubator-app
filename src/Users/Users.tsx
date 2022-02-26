@@ -1,91 +1,95 @@
-import React from 'react';
-import Card from './Card/Card';
-import {
-    followAC,
-    UsersPageType,
-    UsersActionsType,
-    unfollowAC,
-    setUsersAC,
-    UserType,
-    setCurrentPageAC, setTotalUsersCountAC, toggleIsFetchingAC
-} from '../redux/users-reducer';
-import style from './Users.module.css';
-import {AppStateType} from '../redux/redux-store';
-import {Dispatch} from 'redux';
-import {connect} from 'react-redux';
-import axios from 'axios';
+import {NavLink} from 'react-router-dom';
+import styles from './Users.module.css'
+import {UserType} from '../redux/users-reducer';
+import avatar from '../avatar.jpeg';
 
-type MapStatePropsType = {
-    usersPage: UsersPageType
+const SHOW_PAGES_COUNT = 11;
+
+type PropsType = {
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    onPageChanged: (pageNumber: number) => void
+    users: Array<UserType>
+    follow: (userId: string) => void
+    unfollow: (userId: string) => void
 }
 
-type MapDispatchPropsType = {
-    toFollow: (userId: string) => void
-    toUnfollow: (userId: string) => void
-    setUsers: (users: Array<UserType>) => void
-    setCurrentPage: (currentPage:number) => void
-    setTotalUsersCount: (totalUsersCount:number) => void
-    toggleIsFetching: (isFetching: boolean) => void
-}
+const Users = (props: PropsType) => {
+    let {
+        totalUsersCount,
+        pageSize,
+        currentPage,
+        onPageChanged,
+        users,
+        follow,
+        unfollow
+    } = {...props}
 
-export type UsersPropsType = MapStatePropsType & MapDispatchPropsType
 
-const Users = (props: UsersPropsType) => {
-    const {users, pageSize, totalUsersCount, currentPage, isFetching} = props.usersPage
-    if (users[0].id === '') {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
-            .then(response => {
-                props.toggleIsFetching(false);
-                props.setUsers(response.data.items);
-                props.setTotalUsersCount(response.data.totalCount);
-            });
+    let getPages = () => {
+        let pagesCount = Math.ceil(totalUsersCount / pageSize);
+        let pages: Array<number> = [];
+
+        if (currentPage < SHOW_PAGES_COUNT + 1) {
+            for (let i = 1; i <= SHOW_PAGES_COUNT; i++) pages.push(i);
+            return pages
+        }
+        if (currentPage + SHOW_PAGES_COUNT + 1 > pagesCount) {
+            for (let i = pagesCount - SHOW_PAGES_COUNT; i <= pagesCount; i++) pages.push(i);
+            return pages
+        }
+
+        for (let i = currentPage - 5; i <= currentPage + 5; i++) {
+            pages.push(i);
+        }
+
+        return pages;
     }
 
-    return (
-        <div className={style.users}>
-            {users.map((e) => (
-                <Card name={e.name} imagePath={e.photos.small} followed={e.followed}
-                      callback={e.followed ? () => {
-                          props.toUnfollow(e.id)
-                      } : () => {
-                          props.toFollow(e.id)
-                      }}
-                      key={e.id}/>
-            ))}
+
+    return <>
+        <div className={styles.pagesList}>
+            {getPages().map(p => {
+                return <span className={currentPage === p && styles.selectedPage}
+                             onClick={(e) => {
+                                 onPageChanged(p);
+                             }}>{'-' + p + '-'}</span>
+            })}
         </div>
-    );
+        <div className={styles.users}>
+            {users.map(u =>
+                <div key={u.id}>
+                    <span>
+                        <div>
+                            <NavLink to={'/profile/' + u.id}>
+                                <img src={u.photos.small != null ? u.photos.small : avatar}
+                                     className={styles.avatar}/>
+                            </NavLink>
+                        </div>
+                        <div>
+                            {u.followed ? <button onClick={() => {
+                                    unfollow(u.id)
+                                }}>Unfollow</button>
+                                : <button onClick={() => {
+                                    follow(u.id)
+                                }}>Follow</button>}
+                        </div>
+                    </span>
+                    <span>
+                        <span>
+                            <div>{u.name}</div>
+                            <div>{u.status}</div>
+                        </span>
+                        <span>
+                            <div>{'u.location.country'}</div>
+                            <div>{'u.location.city'}</div>
+                        </span>
+                    </span>
+                </div>)
+            }
+        </div>
+    </>
 }
 
-
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
-    return {
-        usersPage: state.usersPage,
-    }
-}
-
-const mapDispatchToProps = (dispatch: Dispatch<UsersActionsType>): MapDispatchPropsType => {
-    return {
-        toFollow: (userId) => {
-            dispatch(followAC(userId));
-        },
-        toUnfollow: (userId) => {
-            dispatch(unfollowAC(userId))
-        },
-        setUsers: (users: Array<UserType>) => {
-            dispatch(setUsersAC(users))
-        },
-        setCurrentPage: (currentPage)=>{
-            dispatch(setCurrentPageAC(currentPage))
-        },
-        setTotalUsersCount: (totalUsersCount)=>{
-            dispatch(setTotalUsersCountAC(totalUsersCount))
-        },
-        toggleIsFetching: (isFetching)=>{
-            dispatch(toggleIsFetchingAC(isFetching))
-        },
-    }
-}
-
-const UsersContainer = connect(mapStateToProps, mapDispatchToProps)(Users);
-
-export default UsersContainer;
+export default Users;
