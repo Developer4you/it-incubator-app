@@ -3,11 +3,22 @@
   height: 8%;
   background-color: darkslateblue;
   text-align: center;
-}
-
-.heading {
-  margin: auto;
   color: silver;
   font-family: 'Amatic SC', cursive;
-  font-size: 3em;
+  font-size: 2em;
+}
+
+.header_title {
+  flex: 6;
+  margin: auto;
+}
+
+.auth_block {
+  flex: 1;
+  display: flex;
+}
+
+.loginBlock{
+  display: inline;
+  margin: 10px auto;
 }
