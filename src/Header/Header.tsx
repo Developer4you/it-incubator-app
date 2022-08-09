@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 type PropsType = {
   isAuth: boolean;
   login: string;
+  id: number;
 };
 
 const Header = (props: PropsType) => {
@@ -17,7 +18,11 @@ const Header = (props: PropsType) => {
         />
 
         <div className={s.loginBlock}>
-          {props.isAuth ? props.login : <NavLink to={"/login"}>Login</NavLink>}
+          {props.isAuth ? (
+            <NavLink to={"/profile/" + props.id}>{props.login}</NavLink>
+          ) : (
+            <NavLink to={"/login"}>Login</NavLink>
+          )}
         </div>
       </div>
       <div className={s.header_title}>My social network!</div>

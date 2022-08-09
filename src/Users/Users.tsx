@@ -9,10 +9,11 @@ type PropsType = {
   totalUsersCount: number;
   pageSize: number;
   currentPage: number;
-  onPageChanged: (pageNumber: number) => void;
+  onPageChanged: (pageNumber: number, pageSize: number) => void;
   users: Array<UserType>;
   follow: (userId: string) => void;
   unfollow: (userId: string) => void;
+  followingInProgress: string[];
 };
 
 const Users = (props: PropsType) => {
@@ -24,13 +25,14 @@ const Users = (props: PropsType) => {
     users,
     follow,
     unfollow,
+    followingInProgress,
   } = { ...props };
 
   let getPages = () => {
     let pagesCount = Math.ceil(totalUsersCount / pageSize);
     let pages: Array<number> = [];
 
-    if (currentPage < SHOW_PAGES_COUNT + 1) {
+    if (currentPage < SHOW_PAGES_COUNT / 2 + 1) {
       for (let i = 1; i <= SHOW_PAGES_COUNT; i++) pages.push(i);
       return pages;
     }
@@ -57,17 +59,17 @@ const Users = (props: PropsType) => {
                 currentPage === p && styles.selectedPage
               }`}
               onClick={(e) => {
-                onPageChanged(p);
+                onPageChanged(p, props.pageSize);
               }}
             >
-              {p}
+              <span className={styles.pagesNumber}>{p}</span>
             </span>
           );
         })}
       </div>
       <div className={styles.users}>
         {users.map((u) => (
-          <div key={u.id}>
+          <div className={styles.usersCard} key={u.id}>
             <span>
               <div>
                 <NavLink to={"/profile/" + u.id}>
@@ -81,6 +83,9 @@ const Users = (props: PropsType) => {
               <div>
                 {u.followed ? (
                   <button
+                    disabled={props.followingInProgress.some(
+                      (id) => id === u.id
+                    )}
                     onClick={() => {
                       unfollow(u.id);
                     }}
@@ -89,6 +94,9 @@ const Users = (props: PropsType) => {
                   </button>
                 ) : (
                   <button
+                    disabled={props.followingInProgress.some(
+                      (id) => id === u.id
+                    )}
                     onClick={() => {
                       follow(u.id);
                     }}

@@ -24,6 +24,11 @@
   background-color: rgb(138, 69, 80);
 }
 
+.usersCard {
+  width: 19%;
+  word-wrap: break-word;
+}
+
 .pagesList {
   display:flex;
   justify-content: center;
@@ -35,4 +40,10 @@
 
 .avatar {
   width: 200px;
+}
+
+.pagesNumber{
+  display: inline-block;
+  text-align: center;
+  width: 50px;
 }
