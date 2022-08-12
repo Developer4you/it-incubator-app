@@ -1,12 +1,5 @@
 import { Dispatch } from "redux"
-import { authAPI } from "../../api/api"
-
-export type AuthType = {
-    userId: string
-    email: string
-    login: string
-    isLoggedIn: boolean // Залогинены ли мы на сервере
-}
+import {authAPI, LoginParamsType} from '../../api/api'
 
 const initialState = {userId: '', email: '', login: '', isLoggedIn: false}
 
@@ -51,12 +44,13 @@ export const logoutTC = () => (dispatch: Dispatch<AuthActionsType>) => {
 }*/
 
 
-export const setAuthUserData = (userId: string, email: string, login: string): SetUserActionType => ({type: 'SET_USER_DATA', data: {userId, email, login}})
+export const setAuthUserData = (userId: string, email: string, login: string): SetUserActionType =>
+    ({type: 'SET_USER_DATA', data: {userId, email, login}})
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
 
 
-export const getAuthUserData = () => (dispatch: Dispatch<SetUserActionType>) => {
+export const getAuthUserData = () => (dispatch: Dispatch<AuthActionsType>) => {
     authAPI.me()
         .then(response=>{
             if (response.data.resultCode===0) {
@@ -65,8 +59,27 @@ export const getAuthUserData = () => (dispatch: Dispatch<SetUserActionType>) => 
             }
         })
 }
+export const loginTC = (data:LoginParamsType) => (dispatch: Dispatch<AuthActionsType>) => {
+    authAPI.login(data)
+        .then(response=>{
+            if (response.data.resultCode===0) {
+                getAuthUserData()
+            }
+        })
+
+}
+export const logoutTC = () => (dispatch: Dispatch<AuthActionsType>) => {
+    authAPI.logout()
+        .then(response=>{
+            if (response.data.resultCode===0) {
+                getAuthUserData()
+            }
+        })
+
+}
 
 export default authReducer;
+
 //types
 export type SetUserActionType = {
     type: 'SET_USER_DATA'
@@ -75,5 +88,11 @@ export type SetUserActionType = {
         email: string
         login: string
     }
+}
+export type AuthType = {
+    userId: string
+    email: string
+    login: string
+    isLoggedIn: boolean // Залогинены ли мы на сервере
 }
 export type AuthActionsType = ReturnType<typeof setIsLoggedInAC> | SetUserActionType
