@@ -6,26 +6,14 @@ import {
   getUsers,
   toggleIsFetching,
   onPageChanged,
-} from "../redux/users-reducer";
+} from "./users-reducer";
 import style from "./Users.module.css";
-import { withAuthRedirect } from "../hoc/withAuthRedirect";
-import { AppStateType } from "../redux/redux-store";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { AppRootStateType } from "../../app/store";
 import { connect } from "react-redux";
 import { compose } from "redux";
-
-import Preloader from "../common/Preloader/Preloader";
+import Preloader from "../../assets/preloader/Preloader";
 import Users from "./Users";
-
-type MapStatePropsType = {
-  usersPage: UsersPageType;
-};
-type MapDispatchPropsType = {
-  follow: (userId: string) => void;
-  unfollow: (userId: string) => void;
-  getUsers: (currentPage: number, pageSize: number) => void;
-  onPageChanged: (pageNumber: number, pageSize: number) => void;
-};
-export type UsersPropsType = MapStatePropsType & MapDispatchPropsType;
 
 class UsersContainer extends React.Component<UsersPropsType> {
   props: UsersPropsType;
@@ -65,7 +53,7 @@ class UsersContainer extends React.Component<UsersPropsType> {
   }
 }
 
-const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
   return {
     usersPage: state.usersPage,
   };
@@ -81,3 +69,15 @@ export default compose(
     toggleIsFetching,
   })
 )(UsersContainer);
+
+//types
+type MapStatePropsType = {
+    usersPage: UsersPageType;
+};
+type MapDispatchPropsType = {
+    follow: (userId: string) => void;
+    unfollow: (userId: string) => void;
+    getUsers: (currentPage: number, pageSize: number) => void;
+    onPageChanged: (pageNumber: number, pageSize: number) => void;
+};
+export type UsersPropsType = MapStatePropsType & MapDispatchPropsType;

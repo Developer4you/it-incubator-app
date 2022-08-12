@@ -1,20 +1,9 @@
 import { NavLink } from "react-router-dom";
 import styles from "./Users.module.css";
-import { UserType } from "../redux/users-reducer";
-import avatar from "../avatar.jpeg";
+import { UserType } from "./users-reducer";
+import avatar from "../../assets/avatar.jpeg";
 
 const SHOW_PAGES_COUNT = 11;
-
-type PropsType = {
-  totalUsersCount: number;
-  pageSize: number;
-  currentPage: number;
-  onPageChanged: (pageNumber: number, pageSize: number) => void;
-  users: Array<UserType>;
-  follow: (userId: string) => void;
-  unfollow: (userId: string) => void;
-  followingInProgress: string[];
-};
 
 const Users = (props: PropsType) => {
   let {
@@ -121,6 +110,18 @@ const Users = (props: PropsType) => {
       </div>
     </>
   );
+};
+
+//types
+type PropsType = {
+  totalUsersCount: number;
+  pageSize: number;
+  currentPage: number;
+  onPageChanged: (pageNumber: number, pageSize: number) => void;
+  users: Array<UserType>;
+  follow: (userId: string) => void;
+  unfollow: (userId: string) => void;
+  followingInProgress: string[];
 };
 
 export default Users;

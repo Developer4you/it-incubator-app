@@ -1,13 +1,14 @@
-import React from "react";
+import React, {useCallback, useEffect} from 'react';
 import { BrowserRouter } from "react-router-dom";
 import style from "./App.module.css";
-import Main from "./Main/Main";
-import Navbar from "./Navbar/Navbar";
-import { store } from "./redux/redux-store";
+import { store } from "./store";
 import { Provider } from "react-redux";
-import HeaderContainer from "./Header/HeaderContainer";
+import HeaderContainer from '../features/Header/HeaderContainer';
+import Main from '../features/Main/Main';
+import Navbar from '../features/Navbar/Navbar';
 
 function App() {
+
   return (
     <BrowserRouter>
       <Provider store={store}>

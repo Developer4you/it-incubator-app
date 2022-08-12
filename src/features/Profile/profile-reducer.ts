@@ -1,3 +1,6 @@
+import { usersAPI } from "../../api/api";
+import {Dispatch} from 'redux';
+
 export enum ACTIONS_TYPE {
   ADD_POST_TYPE = 'Profile/ADD_POST_TYPE',
   SET_USER_PROFILE = 'Profile/SET_USER_PROFILE',
@@ -15,7 +18,7 @@ export type ContactsType = {
 }
 
 export type ProfileType = {
-  userId: number
+  userId: string
   lookingForAJob: boolean
   lookingForAJobDescription: string
   fullName: string
@@ -36,7 +39,7 @@ export type SetUserProfileActionsType = { type:ACTIONS_TYPE.SET_USER_PROFILE, pr
 export type ProfileActionsType = AddPostActionsType | SetUserProfileActionsType
 
 const initialState:{profile:ProfileType} = {
-  profile: {userId: 0,
+  profile: {userId: '',
     lookingForAJob: false,
     lookingForAJobDescription: '',
     fullName:'',
@@ -77,7 +80,13 @@ const profileReducer = (state = initialState, action: ProfileActionsType):Profil
   }
 }
 
-export const addPostAC = (newPost:string) => ({type: ACTIONS_TYPE.ADD_POST_TYPE, newPost})
+//export const addPostAC = (newPost:string) => ({type: ACTIONS_TYPE.ADD_POST_TYPE, newPost})
 export const setUserProfile = ( profile:ProfileType ): SetUserProfileActionsType => ({type: ACTIONS_TYPE.SET_USER_PROFILE, profile})
+
+export const getUserProfile = (userId: string) => (dispatch:Dispatch) => {
+  usersAPI.getProfile(userId).then(response => {
+    dispatch(setUserProfile(response.data));
+  });
+}
 
 export default profileReducer;

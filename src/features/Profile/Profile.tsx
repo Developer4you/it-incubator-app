@@ -1,5 +1,5 @@
 import React from 'react';
-import {ProfilePageType, ProfileType} from '../redux/profile-reducer';
+import {ProfilePageType, ProfileType} from './profile-reducer';
 import s from './Profile.module.css'
 
 const Profile = (props:ProfilePageType) => {

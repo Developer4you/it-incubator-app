@@ -1,6 +1,6 @@
 import styles from './Card.module.css';
-import {SimpleButton} from '../../Button/Button';
-import avatar from '../../avatar.jpeg';
+import {SimpleButton} from '../../../components/Button/Button';
+import avatar from '.././../../assets/avatar.jpeg';
 
 type cardPropsType = {
     name: string
@@ -17,5 +17,5 @@ const Card:React.FC <cardPropsType> = (props) => (
                     callback={props.callback} />
     </div>
   );
-  
+
   export default Card;

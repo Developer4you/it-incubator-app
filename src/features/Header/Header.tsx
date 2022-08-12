@@ -3,11 +3,10 @@ import s from "./Header.module.css";
 import { NavLink } from "react-router-dom";
 
 type PropsType = {
-  isAuth: boolean;
-  login: string;
-  id: number;
-};
-
+    isLoggedIn: boolean;
+    login: string;
+    id: string;
+}
 const Header = (props: PropsType) => {
   return (
     <header className={s.header}>
@@ -18,7 +17,7 @@ const Header = (props: PropsType) => {
         />
 
         <div className={s.loginBlock}>
-          {props.isAuth ? (
+          {props.isLoggedIn ? (
             <NavLink to={"/profile/" + props.id}>{props.login}</NavLink>
           ) : (
             <NavLink to={"/login"}>Login</NavLink>

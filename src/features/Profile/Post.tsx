@@ -1,8 +1,8 @@
 import React from "react";
-import { postType } from "../redux/state";
 import style from "./Profile.module.css";
+import {PostType} from './profile-reducer';
 
-function Post(props: postType) {
+function Post(props: PostType) {
   return (
     <div className={style.post}>
       <h3>{props.message}</h3>

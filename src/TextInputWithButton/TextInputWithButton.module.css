@@ -1,9 +1,0 @@
-.inputPostBox {
-    display: flex;
-}
-
-.inputPostBox textarea {
-    resize: none;
-    width:350px;
-    height:50px;
-}
