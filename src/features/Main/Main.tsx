@@ -7,25 +7,25 @@ import {useAppDispatch} from '../../hooks/hooks';
 import {useSelector} from 'react-redux';
 import {AppRootStateType} from '../../app/store';
 import {initializeAppTC} from '../../app/app-reducer';
-import {Redirect, Route} from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import {WelcomeWithRedirect} from '../Welcom/Welcome';
 
 function Main() {
     const dispatch = useAppDispatch();
     const isInitialized = useSelector<AppRootStateType,boolean>((state)=> state.app.isInitialized)
-    const isLoggedIn = useSelector<AppRootStateType,boolean>((state)=> state.auth.isLoggedIn)
 
-    useEffect(()=>{dispatch(initializeAppTC())},[])
+    useEffect(()=>{if (!isInitialized) dispatch(initializeAppTC())},[])
 
     if (!isInitialized) {
         return <div
             style={{position:'fixed', top:'30%', textAlign:'center', width:'100%'}}>
             <div>Инициализируемся. Пожалуйста подождите!</div>
         </div>
-    } else if (!isLoggedIn) return <Redirect to='/login' />
+    }
 
     return (
     <div className={style.main}>
-      <Route exact path="/" render={() => <div>Welcom</div>} />
+      <Route exact path="/" render={() => <WelcomeWithRedirect />} />
       <Route path="/profile/:userId?" render={() => <ProfileContainer />} />
       <Route path="/users" render={() => <UsersContainer />} />
 {/*
@@ -39,7 +39,7 @@ function Main() {
         )}
       />
 */}
-      <Route path="/login" render={() => <Login />} />
+        <Route path="/login" render={() => <Login />}/>
     </div>
   );
 }

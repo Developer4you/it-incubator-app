@@ -32,13 +32,14 @@ export const Login = () => {
             }
             if (!values.password) {
                 errors.password = 'Required';
-            } else if (values.password.length<=2) errors.password = 'Invalid password. Passord should be longer then 2 simvols!';
+            } else if (values.password.length<=2) errors.password = 'Invalid password. Password should be longer then 2 simvols!';
             return errors;
         },
-        onSubmit: values => { dispatch(loginTC(values)) },
+        onSubmit: values => {
+            dispatch(loginTC(values))
+        },
 
     })
-
     if (isLoggedIn){
         return <Redirect to={"/"}/>
     }

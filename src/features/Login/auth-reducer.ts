@@ -7,8 +7,7 @@ const authReducer = (state: AuthType = initialState, action: AuthActionsType) =>
     switch (action.type) {
         case 'SET_USER_DATA':
             return {
-                ...state, userId: action.data.userId, email: action.data.email, login:action.data.login,
-                isAuth: true
+                ...state, userId: action.data.userId, email: action.data.email, login:action.data.login
             }
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
@@ -62,8 +61,8 @@ export const getAuthUserData = () => (dispatch: Dispatch<AuthActionsType>) => {
 export const loginTC = (data:LoginParamsType) => (dispatch: Dispatch<AuthActionsType>) => {
     authAPI.login(data)
         .then(response=>{
-            if (response.data.resultCode===0) {
-                getAuthUserData()
+            if (response.data.resultCode === 0) {
+                dispatch(setIsLoggedInAC(true))
             }
         })
 
@@ -72,7 +71,7 @@ export const logoutTC = () => (dispatch: Dispatch<AuthActionsType>) => {
     authAPI.logout()
         .then(response=>{
             if (response.data.resultCode===0) {
-                getAuthUserData()
+                dispatch(setIsLoggedInAC(false))
             }
         })
 
